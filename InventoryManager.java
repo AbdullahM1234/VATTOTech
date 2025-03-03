@@ -37,7 +37,8 @@ public class InventoryManager {
             System.out.println("3. Remove Product");
             System.out.println("4. Search Inventory");
             System.out.println("5. View Inventory");
-            System.out.println("6. Exit");
+            System.out.println("6. Edit Inventory");
+            System.out.println("7. Exit");
 
 
             int choice = scanner.nextInt();
@@ -59,6 +60,8 @@ public class InventoryManager {
                 case 5:
                     viewInventory();
                 case 6:
+                    editProduct();
+                case 7:
                     System.out.println("Exiting program...");
                     return;
                 default:
@@ -143,6 +146,72 @@ public class InventoryManager {
             System.out.println("File updated successfully!");
         } catch (IOException e) {
             System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
+
+    private static void editProduct() {
+        System.out.println("Current Inventory:");
+        viewInventory();
+
+        System.out.print("Enter SKU of product to edit (or type 'Cancel' to exit): ");
+
+        String targetSKU = scanner.nextLine().trim();
+        if (targetSKU.equalsIgnoreCase("Cancel")) {
+            return;
+        }
+        // Find the product by SKU
+        Product product = null;
+        for (Product p : inventory) {
+            if (p.sku.equalsIgnoreCase(targetSKU)) {
+                product = p;
+                break;
+            }
+        }
+        if (product == null) {
+            System.out.println("Product not found.");
+            return;
+        }
+
+        boolean editing = true;
+        while (editing) {
+            System.out.println("\nEditing product: " + product);
+            System.out.println("1. Edit Name");
+            System.out.println("2. Edit SKU");
+            System.out.println("3. Edit Price");
+            System.out.println("4. Edit Quantity");
+            System.out.println("5. Exit Editing");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter new name: ");
+                    product.name = scanner.nextLine();
+                    break;
+                case 2:
+                    System.out.print("Enter new SKU: ");
+                    product.sku = scanner.nextLine();
+                    break;
+                case 3:
+                    System.out.print("Enter new price: ");
+                    product.price = scanner.nextDouble();
+                    scanner.nextLine();
+                    break;
+                case 4:
+                    System.out.print("Enter new quantity: ");
+                    product.quantity = scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                case 5:
+                    editing = false;
+                    continue;
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+
+            updateFile();
+            System.out.println("Product updated: " + product);
         }
     }
 
