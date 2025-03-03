@@ -59,8 +59,10 @@ public class InventoryManager {
                     break;
                 case 5:
                     viewInventory();
+                    break;
                 case 6:
                     editProduct();
+                    break;
                 case 7:
                     System.out.println("Exiting program...");
                     return;
@@ -81,6 +83,15 @@ public class InventoryManager {
         System.out.print("Enter SKU: ");
         String sku = scanner.nextLine();
 
+        for (Product product : inventory) {
+            if (product.name.equalsIgnoreCase(name) || product.sku.equalsIgnoreCase(sku)) {
+                product.quantity += quantity;
+                System.out.println("Existing product found. Quantity updated!");
+                updateFile();
+                return;
+            }
+        }
+
         inventory.add(new Product(name, quantity, price, sku));
         System.out.println("Product added successfully!");
 
@@ -100,7 +111,18 @@ public class InventoryManager {
                     double price = Double.parseDouble(parts[2].trim());
                     String sku = parts[3].trim();
 
-                    inventory.add(new Product(name, quantity, price, sku));
+                    boolean exists = false;
+                    for (Product product : inventory) {
+                        if (product.name.equalsIgnoreCase(name) || product.sku.equalsIgnoreCase(sku)) {
+                            product.quantity += quantity;
+                            exists = true;
+                            break;
+                        }
+                    }
+
+                    if (!exists) {
+                        inventory.add(new Product(name, quantity, price, sku));
+                    }
                 }
             }
             System.out.println("Products added successfully from file!");
@@ -159,7 +181,6 @@ public class InventoryManager {
         if (targetSKU.equalsIgnoreCase("Cancel")) {
             return;
         }
-        // Find the product by SKU
         Product product = null;
         for (Product p : inventory) {
             if (p.sku.equalsIgnoreCase(targetSKU)) {
@@ -177,12 +198,12 @@ public class InventoryManager {
             System.out.println("\nEditing product: " + product);
             System.out.println("1. Edit Name");
             System.out.println("2. Edit SKU");
-            System.out.println("3. Edit Price");
-            System.out.println("4. Edit Quantity");
+            System.out.println("3. Edit Quantity");
+            System.out.println("4. Edit Price");
             System.out.println("5. Exit Editing");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -194,13 +215,13 @@ public class InventoryManager {
                     product.sku = scanner.nextLine();
                     break;
                 case 3:
-                    System.out.print("Enter new price: ");
-                    product.price = scanner.nextDouble();
+                    System.out.print("Enter new quantity: ");
+                    product.quantity = scanner.nextInt();
                     scanner.nextLine();
                     break;
                 case 4:
-                    System.out.print("Enter new quantity: ");
-                    product.quantity = scanner.nextInt();
+                    System.out.print("Enter new price: ");
+                    product.price = scanner.nextDouble();
                     scanner.nextLine();
                     break;
                 case 5:
