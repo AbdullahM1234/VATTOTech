@@ -9,6 +9,6 @@ Instructions on How to Clone the Assignment:
 Instructions on How to Run our Application:
 
 1) First, you need to open up IntelliJ and run it as administrator
-2) On the left side, click on the files named “VATTOTech” -> “InventoryManager.java” , this should open up all the .java files for the application
-4) After opening up the java file, on the top right, a green button should appear looking like an arrow facing the right side named Run, clicking on it will run the application. (Make sure your are on the “Inventory Manager.java” file)
+2) On the left side, click on the files named “VATTOTech” -> “InventoryManager.java”, this should open up all the .java files for the application
+4) After opening up the java file, on the top right, a green button should appear looking like an arrow facing the right side named Run, clicking on it will run the application. (if the button shows up grey, it means you haven't opened up "InventoryManager.java")
 5) After a couple of seconds, the application should start executing and will display a menu with all the options in the command line
