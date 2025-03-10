@@ -20,13 +20,13 @@ class ProductTest {
 
     @Test
     void testToString() {
-        String expected = "HOTWHEELS | SKU:LAMBO1 | Quantity: 10 | Price: $5.99";
+        String expected = "HotWheels | SKU:LAMBO1 | Quantity: 10 | Price: $5.99";
         assertEquals(expected, product.toString());
     }
 
     @Test
     void testToFile() {
-        String expected = "HOTWHEELS,10,5.99,LAMBO1";
+        String expected = "HotWheels,10,5.99,LAMBO1";
         assertEquals(expected, product.toFile());
     }
 }
