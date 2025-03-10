@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 class Product {
     String name;
@@ -28,8 +30,12 @@ class Product {
 public class InventoryManager {
     private static final ArrayList<Product> inventory = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
+    private static final String databaseFilePath = "toys_and_games_database.txt";
 
     public static void main(String[] args) {
+
+        loadInventoryFromFile();
+
         while (true) {
             System.out.println("Choose an option:");
             System.out.println("1. Add Product");
@@ -37,8 +43,9 @@ public class InventoryManager {
             System.out.println("3. Remove Product");
             System.out.println("4. Search Inventory");
             System.out.println("5. View Inventory");
-            System.out.println("6. Edit Inventory");
-            System.out.println("7. Exit");
+            System.out.println("6. Sort Inventory");
+            System.out.println("7. Edit Inventory");
+            System.out.println("8. Exit");
 
 
             int choice = scanner.nextInt();
@@ -61,14 +68,36 @@ public class InventoryManager {
                     viewInventory();
                     break;
                 case 6:
-                    editProduct();
+                    sortInventory();
                     break;
                 case 7:
+                    editProduct();
+                    break;
+                case 8:
                     System.out.println("Exiting program...");
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
+        }
+    }
+
+    private static void loadInventoryFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader(databaseFilePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 4) {
+                    String name = parts[0].trim();
+                    int quantity = Integer.parseInt(parts[1].trim());
+                    double price = Double.parseDouble(parts[2].trim());
+                    String sku = parts[3].trim();
+
+                    inventory.add(new Product(name, quantity, price, sku));
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("Error loading inventory from file: " + e.getMessage());
         }
     }
 
@@ -99,14 +128,13 @@ public class InventoryManager {
     }
 
     public static void addProductFromFile() {
-        String filePath = "toys_and_games.txt";
-
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("inventory_sheet_1.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length == 4) {
                     String name = parts[0].trim();
+                    System.out.println(name);
                     int quantity = Integer.parseInt(parts[1].trim());
                     double price = Double.parseDouble(parts[2].trim());
                     String sku = parts[3].trim();
@@ -126,6 +154,7 @@ public class InventoryManager {
                 }
             }
             System.out.println("Products added successfully from file!");
+            updateFile();
         } catch (IOException | NumberFormatException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
@@ -159,13 +188,11 @@ public class InventoryManager {
     }
 
     private static void updateFile() {
-        String filePath = "toys_and_games.txt";
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(databaseFilePath))) {
             for (Product product : inventory) {
                 bw.write(product.toFile());
                 bw.newLine();
             }
-            System.out.println("File updated successfully!");
         } catch (IOException e) {
             System.out.println("Error writing to file: " + e.getMessage());
         }
@@ -176,11 +203,11 @@ public class InventoryManager {
         viewInventory();
 
         System.out.print("Enter SKU of product to edit (or type 'Cancel' to exit): ");
-
         String targetSKU = scanner.nextLine().trim();
         if (targetSKU.equalsIgnoreCase("Cancel")) {
             return;
         }
+
         Product product = null;
         for (Product p : inventory) {
             if (p.sku.equalsIgnoreCase(targetSKU)) {
@@ -232,7 +259,6 @@ public class InventoryManager {
             }
 
             updateFile();
-            System.out.println("Product updated: " + product);
         }
     }
 
@@ -241,7 +267,7 @@ public class InventoryManager {
         System.out.println("1. Product Name");
         System.out.println("2. SKU");
         int searchChoice = scanner.nextInt();
-        scanner.nextLine(); // consume the newline character
+        scanner.nextLine();
 
         if (searchChoice == 1) {
             System.out.print("Enter product name: ");
@@ -276,5 +302,39 @@ public class InventoryManager {
         } else {
             System.out.println("Invalid option. Please try again.");
         }
+    }
+
+    private static void sortInventory() {
+        System.out.println("Sort by:");
+        System.out.println("1. Name (Alphabetically)");
+        System.out.println("2. SKU (Increasing)");
+        int sortChoice = scanner.nextInt();
+        scanner.nextLine(); // consume the newline character
+
+        switch (sortChoice) {
+            case 1:
+                Collections.sort(inventory, new Comparator<Product>() {
+                    @Override
+                    public int compare(Product p1, Product p2) {
+                        return p1.name.compareToIgnoreCase(p2.name);
+                    }
+                });
+                System.out.println("Inventory sorted by name.");
+                break;
+            case 2:
+                Collections.sort(inventory, new Comparator<Product>() {
+                    @Override
+                    public int compare(Product p1, Product p2) {
+                        return p1.sku.compareTo(p2.sku);
+                    }
+                });
+                System.out.println("Inventory sorted by SKU.");
+                break;
+            default:
+                System.out.println("Invalid choice.");
+        }
+
+        updateFile();
+        viewInventory();
     }
 }

@@ -1,0 +1,4 @@
+LEGO City,42,105.99,217386
+Batman Figurine,22,25.97,987234
+Ninjago LEGO,32,87.99,287342
+Superman Statue,1,5999.99,953234
