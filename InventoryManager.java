@@ -32,8 +32,14 @@ public class InventoryManager {
     private static final Scanner scanner = new Scanner(System.in);
     private static final String databaseFilePath = "toys_and_games_database.txt";
 
-    public static void main(String[] args) {
+    private static final String Username = "StoreManager123";
+    private static final String Password = "A1B2C3D4";
 
+    public static void main(String[] args) {
+        if (!login()) {
+            System.out.println("Too many failed attempts. Exiting program...");
+            return;
+        }
         loadInventoryFromFile();
 
         while (true) {
@@ -336,5 +342,24 @@ public class InventoryManager {
 
         updateFile();
         viewInventory();
+    }
+
+    private static boolean login() {
+        int attempts = 3;
+        while (attempts > 0) {
+            System.out.print("Enter username: ");
+            String UsernameInput = scanner.nextLine();
+            System.out.print("Enter password: ");
+            String PasswordInput = scanner.nextLine();
+
+            if (UsernameInput.equals(Username) && PasswordInput.equals(Password)) {
+                System.out.println("Login successful!\n");
+                return true;
+            } else {
+                attempts--;
+                System.out.println("WRONG!. Attempts remaining: " + attempts);
+            }
+        }
+        return false;
     }
 }
