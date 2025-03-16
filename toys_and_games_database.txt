@@ -2,3 +2,4 @@ Batman Figurine,22,25.97,123456
 Ninjago LEGO,32,87.99,287342
 Beyblade X,13,25.99,632434
 Superman Statue,1,5999.99,953234
+John Doe ,20,24.99,1101
