@@ -1,26 +1,28 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+
 class Product {
     String name;
     int quantity;
     double price;
     String sku;
+    ArrayList<String> tags;
 
-    Product(String name, int quantity, double price, String sku) {
+    Product(String name, int quantity, double price, String sku, ArrayList<String> tags) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.sku = sku;
-
+        this.tags = tags != null ? tags : new ArrayList<>();
     }
 
     @Override
     public String toString() {
-        return name + " | SKU:"+ sku + " | Quantity: " + quantity + " | Price: $" + price;
+        return name + " | SKU: " + sku + " | Quantity: " + quantity + " | Price: $" + price + " | Tags: " + String.join(", ", tags);
     }
 
     public String toFile() {
-        return name + "," + quantity + "," + price + "," + sku;
+        return name + "," + quantity + "," + price + "," + sku + "," + String.join(",", tags);
     }
 }
 
@@ -40,16 +42,17 @@ public class InventoryManager extends InventoryManagerMethods {
         loadInventoryFromFile();
 
         while (true) {
+            System.out.println();
             System.out.println("Choose an option:");
             System.out.println("1. Add Product");
             System.out.println("2. Add Products from File");
             System.out.println("3. Remove Product");
             System.out.println("4. Search Inventory");
             System.out.println("5. View Inventory");
-            System.out.println("6. Sort Inventory");
-            System.out.println("7. Edit Inventory");
-            System.out.println("8. Exit");
-
+            System.out.println("6. Inventory Overview");
+            System.out.println("7. Sort Inventory");
+            System.out.println("8. Edit Inventory");
+            System.out.println("9. Exit");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -71,12 +74,15 @@ public class InventoryManager extends InventoryManagerMethods {
                     viewInventory();
                     break;
                 case 6:
-                    sortInventory();
+                    inventoryOverview();
                     break;
                 case 7:
-                    editProduct();
+                    sortInventory();
                     break;
                 case 8:
+                    editProduct();
+                    break;
+                case 9:
                     System.out.println("Exiting program...");
                     return;
                 default:
@@ -84,5 +90,4 @@ public class InventoryManager extends InventoryManagerMethods {
             }
         }
     }
-
 }

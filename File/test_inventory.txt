@@ -1,0 +1,3 @@
+Monopoly Deluxe,15,5.99,1125,Board Game,Hasbro,8
+Jenga,2,19.99,1124,Board Game,Hasbro,8
+Snake,2,20.99,2424,Board Game,Hasbro,8

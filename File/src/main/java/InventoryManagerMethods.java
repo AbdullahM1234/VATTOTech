@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -8,13 +9,18 @@ public class InventoryManagerMethods {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 4) {
+                if (parts.length >= 4) {
                     String name = parts[0].trim();
                     int quantity = Integer.parseInt(parts[1].trim());
                     double price = Double.parseDouble(parts[2].trim());
                     String sku = parts[3].trim();
 
-                    InventoryManager.inventory.add(new Product(name, quantity, price, sku));
+                    ArrayList<String> tags = new ArrayList<>();
+                    for (int i = 4; i < parts.length; i++) {
+                        tags.add(parts[i].trim());
+                    }
+
+                    InventoryManager.inventory.add(new Product(name, quantity, price, sku, tags));
                 }
             }
         } catch (IOException | NumberFormatException e) {
@@ -33,19 +39,28 @@ public class InventoryManagerMethods {
         System.out.print("Enter SKU: ");
         String sku = InventoryManager.scanner.nextLine();
 
+        ArrayList<String> tags = new ArrayList<>();
+        System.out.println("Enter tags (comma-separated: 'Toy Type, Brand, Age and up'): ");
+        String tagInput = InventoryManager.scanner.nextLine();
+        if (!tagInput.isEmpty()) {
+            String[] tagArray = tagInput.split(",");
+            for (String tag : tagArray) {
+                tags.add(tag.trim());
+            }
+        }
+
         for (Product product : InventoryManager.inventory) {
             if (product.name.equalsIgnoreCase(name) || product.sku.equalsIgnoreCase(sku)) {
                 product.quantity += quantity;
                 System.out.println("Existing product found. Quantity updated!");
-                InventoryManagerMethods.updateFile();
+                updateFile();
                 return;
             }
         }
 
-        InventoryManager.inventory.add(new Product(name, quantity, price, sku));
+        InventoryManager.inventory.add(new Product(name, quantity, price, sku, tags));
         System.out.println("Product added successfully!");
-
-        InventoryManagerMethods.updateFile();
+        updateFile();
     }
 
     public static void addProductFromFile() {
@@ -53,12 +68,16 @@ public class InventoryManagerMethods {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 4) {
+                if (parts.length >= 4) {
                     String name = parts[0].trim();
-                    System.out.println(name);
                     int quantity = Integer.parseInt(parts[1].trim());
                     double price = Double.parseDouble(parts[2].trim());
                     String sku = parts[3].trim();
+
+                    ArrayList<String> tags = new ArrayList<>();
+                    for (int i = 4; i < parts.length; i++) {
+                        tags.add(parts[i].trim());
+                    }
 
                     boolean exists = false;
                     for (Product product : InventoryManager.inventory) {
@@ -70,12 +89,12 @@ public class InventoryManagerMethods {
                     }
 
                     if (!exists) {
-                        InventoryManager.inventory.add(new Product(name, quantity, price, sku));
+                        InventoryManager.inventory.add(new Product(name, quantity, price, sku, tags));
                     }
                 }
             }
             System.out.println("Products added successfully from file!");
-            InventoryManagerMethods.updateFile();
+            updateFile();
         } catch (IOException | NumberFormatException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
@@ -121,7 +140,7 @@ public class InventoryManagerMethods {
 
     protected static void editProduct() {
         System.out.println("Current Inventory:");
-        InventoryManagerMethods.viewInventory();
+        viewInventory();
 
         System.out.print("Enter SKU of product to edit (or type 'Cancel' to exit): ");
         String targetSKU = InventoryManager.scanner.nextLine().trim();
@@ -148,7 +167,8 @@ public class InventoryManagerMethods {
             System.out.println("2. Edit SKU");
             System.out.println("3. Edit Quantity");
             System.out.println("4. Edit Price");
-            System.out.println("5. Exit Editing");
+            System.out.println("5. Edit Tags");
+            System.out.println("6. Exit Editing");
             System.out.print("Enter your choice: ");
             int choice = InventoryManager.scanner.nextInt();
             InventoryManager.scanner.nextLine();
@@ -173,13 +193,23 @@ public class InventoryManagerMethods {
                     InventoryManager.scanner.nextLine();
                     break;
                 case 5:
+                    System.out.println("Enter new tags (comma-separated: 'Toy Type, Brand, Age and up'): ");
+                    String tagInput = InventoryManager.scanner.nextLine();
+                    product.tags.clear();
+                    if (!tagInput.isEmpty()) {
+                        String[] tagArray = tagInput.split(",");
+                        for (String tag : tagArray) {
+                            product.tags.add(tag.trim());
+                        }
+                    }
+                    break;
+                case 6:
                     editing = false;
                     continue;
                 default:
                     System.out.println("Invalid choice. Try again.");
             }
-
-            InventoryManagerMethods.updateFile();
+            updateFile();
         }
     }
 
@@ -257,6 +287,34 @@ public class InventoryManagerMethods {
 
         InventoryManagerMethods.updateFile();
         InventoryManagerMethods.viewInventory();
+    }
+
+    protected static void inventoryOverview() {
+        final int lowStockThreshold = 5;
+
+        int lowStockCount = 0;
+        int zeroStockCount = 0;
+
+        System.out.println("\n==== Inventory Overview ====");
+        System.out.println("Stock Status Report:");
+
+        for (Product product : InventoryManager.inventory) {
+            if (product.quantity == 0) {
+                zeroStockCount++;
+                System.out.println("[OUT OF STOCK] " + product.name + " (SKU: " + product.sku + ")");
+            } else if (product.quantity < lowStockThreshold) {
+                lowStockCount++;
+                System.out.println("[LOW STOCK] " + product.name + " (SKU: " + product.sku + ") - " + product.quantity + " left");
+            }
+        }
+
+        System.out.println("\nSummary:");
+        System.out.println("Total items below threshold (" + lowStockThreshold + "): " + lowStockCount);
+        System.out.println("Items at zero stock: " + zeroStockCount);
+
+        if (lowStockCount == 0 && zeroStockCount == 0) {
+            System.out.println("All items are sufficiently stocked.");
+        }
     }
 
     protected static boolean login() {
