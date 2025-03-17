@@ -186,4 +186,49 @@ class InventoryManagerMethodsTest {
         assertFalse(InventoryManagerMethods.login());
         System.setIn(System.in);
     }
+
+//    First test to show "red"
+//    @Test
+//    void testAddMultipleItemsToCart() {
+//        Cart cart = new Cart();
+//        cart.addItem(product1);
+//        cart.addItem(product2);
+//
+//        assertEquals(2, cart.getItems().size());
+//        assertEquals(2, cart.getItems().get(0).quantity);
+//        assertEquals(3, cart.getItems().get(1).quantity);
+//    }
+
+    @Test
+    void testAddMultipleItemsToCart() {
+        Product product1 = new Product("Toy Car", 2, 9.99, "1001", new ArrayList<>());
+        Product product2 = new Product("Doll", 3, 14.99, "1002", new ArrayList<>());
+
+        Cart cart = new Cart();
+        cart.addItem(product1);
+        cart.addItem(product2);
+
+        assertEquals(2, cart.getItems().size());
+        assertEquals(2, cart.getItems().get(0).quantity);
+        assertEquals(3, cart.getItems().get(1).quantity);
+    }
+
+    @Test
+    void testAddExistingProductToCart() {
+        Product product1 = new Product("Toy Car", 2, 9.99, "1001", new ArrayList<>());
+        Product product2 = new Product("Toy Car", 3, 9.99, "1001", new ArrayList<>());
+
+        Cart cart = new Cart();
+        cart.addItem(product1);
+        cart.addItem(product2); // Adding more Toy Cars with the same SKU
+
+        assertEquals(1, cart.getItems().size());
+        assertEquals(5, cart.getItems().get(0).quantity); // The quantity of Toy Cars should now be 5
+    }
+
+    @Test
+    void testAddNoItemToCart() {
+        Cart cart = new Cart();
+        assertEquals(0, cart.getItems().size()); // No items in the cart initially
+    }
 }
