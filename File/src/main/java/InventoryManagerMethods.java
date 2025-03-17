@@ -213,48 +213,80 @@ public class InventoryManagerMethods {
             updateFile();
         }
     }
-
     protected static void searchInventory() {
         System.out.println("Search by:");
         System.out.println("1. Product Name");
         System.out.println("2. SKU");
+        System.out.println("3. Search By Relevance");
         int searchChoice = InventoryManager.scanner.nextInt();
         InventoryManager.scanner.nextLine();
 
-        if (searchChoice == 1) {
-            System.out.print("Enter product name: ");
-            String name = InventoryManager.scanner.nextLine();
-            boolean found = false;
-
-            for (Product product : InventoryManager.inventory) {
-                if (product.name.equalsIgnoreCase(name)) {
-                    System.out.println(product);
-                    found = true;
-                }
-            }
-
-            if (!found) {
-                System.out.println("No product found with that name.");
-            }
-        } else if (searchChoice == 2) {
-            System.out.print("Enter SKU: ");
-            String sku = InventoryManager.scanner.nextLine();
-            boolean found = false;
-
-            for (Product product : InventoryManager.inventory) {
-                if (product.sku.equalsIgnoreCase(sku)) {
-                    System.out.println(product);
-                    found = true;
-                }
-            }
-
-            if (!found) {
-                System.out.println("No product found with that SKU.");
-            }
-        } else {
-            System.out.println("Invalid option. Please try again.");
+        switch (searchChoice) {
+            case 1:
+                System.out.print("Enter product name: ");
+                String name = InventoryManager.scanner.nextLine();
+                searchByName(name);
+                break;
+            case 2:
+                System.out.print("Enter SKU: ");
+                String sku = InventoryManager.scanner.nextLine();
+                searchBySKU(sku);
+                break;
+            case 3:
+                System.out.print("Enter a keyword to search by relevance: ");
+                String keyword = InventoryManager.scanner.nextLine();
+                searchByRelevance(keyword);
+                break;
+            default:
+                System.out.println("Invalid option. Please try again.");
         }
     }
+
+    private static void searchByName(String name) {
+        List<Product> results = new ArrayList<>();
+        for (Product product : InventoryManager.inventory) {
+            if (product.name.equalsIgnoreCase(name)) {
+                results.add(product);
+            }
+        }
+        if (results.isEmpty()){
+            System.out.println("No Product found with that name");
+        }
+        else {
+            System.out.println(results);
+        }
+    }
+
+    private static void searchBySKU(String sku) {
+        List<Product> results = new ArrayList<>();
+        for (Product product : InventoryManager.inventory) {
+            if (product.sku.equalsIgnoreCase(sku)) {
+                results.add(product);
+            }
+        }
+        if (results.isEmpty()){
+            System.out.println("No Product found with that sku");
+        }
+        else {
+            System.out.println(results);
+        }
+    }
+
+    private static void searchByRelevance(String keyword) {
+        List<Product> results = new ArrayList<>();
+        keyword = keyword.toLowerCase();
+
+        for (Product product : InventoryManager.inventory) {
+            boolean nameMatch = product.name.toLowerCase().contains(keyword);
+            boolean tagMatch = product.tags.contains(keyword);
+
+            if (nameMatch || tagMatch) {
+                results.add(product);
+            }
+        }
+        System.out.println(results);
+    }
+
 
     protected static void sortInventory() {
         System.out.println("Sort by:");

@@ -86,8 +86,8 @@ class InventoryManagerMethodsTest {
         System.setOut(System.out);
 
         String output = outContent.toString();
-        assertTrue(output.contains("Monopoly | SKU:1125 | Quantity: 10 | Price: $5.99 | Tags: Board Game, Hasbro, 8"));
         assertTrue(output.contains("Jenga | SKU:1124 | Quantity: 2 | Price: $19.99 | Tags: Board Game, Hasbro, 8"));
+        assertTrue(output.contains("Monopoly | SKU:1125 | Quantity: 10 | Price: $5.99 | Tags: Board Game, Hasbro, 8"));
         assertTrue(output.contains("Snake | SKU:2424 | Quantity: 2 | Price: $20.99 | Tags: Board Game, Hasbro, 8"));
     }
 
@@ -127,7 +127,7 @@ class InventoryManagerMethodsTest {
 
     @Test
     void testEditProduct() {
-        String input = "1125\n1\nMonopoly Deluxe\n3\n15\n";
+        String input = "1125\n1\nMonopoly Deluxe\n3\n15\n6\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         InventoryManager.scanner = new Scanner(System.in);
 
