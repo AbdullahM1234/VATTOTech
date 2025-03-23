@@ -186,7 +186,6 @@ class InventoryManagerMethodsTest {
         System.setIn(System.in);
     }
 
-//    First test to show "red"
 //    @Test
 //    void testAddMultipleItemsToCart() {
 //        Cart cart = new Cart();
