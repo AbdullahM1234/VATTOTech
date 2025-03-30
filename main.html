@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="content">
+        <h1>Welcome to the Inventory Management System</h1>
+    </div>
+
+    <div class="container" id="loginPage">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button class="login" onclick="login()">Login</button>
+    </div>
+
+
+    <div class="container" id="dashboard" style="display: none;">
+        <h2>Inventory Dashboard</h2>
+        <nav>
+            <button onclick="showPage('addProduct')">Add Product</button>
+            <button onclick="showPage('viewInventory')">View Inventory</button>
+            <button onclick="showPage('searchFilter')">Search & Filter</button>
+            <button onclick="showPage('sortInventory')">Sort Inventory</button>
+            <button class="logout" onclick="logout()">Logout</button>
+        </nav>
+
+    </div>
+
+    <script>
+        function login() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            if(username === "admin" && password === "password") { 
+                document.getElementById("loginPage").style.display = "none";
+                document.getElementById("dashboard").style.display = "block";
+            } else {
+                alert("Invalid credentials!");
+            }
+        }
+
+        function logout() {
+            document.getElementById("dashboard").style.display = "none";
+            document.getElementById("loginPage").style.display = "block";
+        }
+    </script>
+</body>
+</html>
