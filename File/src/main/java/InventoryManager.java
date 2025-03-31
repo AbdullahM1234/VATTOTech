@@ -29,8 +29,8 @@ class Product {
 public class InventoryManager extends InventoryManagerMethods {
     public static ArrayList<Product> inventory = new ArrayList<>();
     public static Scanner scanner = new Scanner(System.in);
-    public static String databaseFilePath = "toys_and_games_database.txt";
-    public static String loginsFilePath = "logins.txt";
+    public static String databaseFilePath = "VATTOTech/File/toys_and_games_database.txt";
+    public static String loginsFilePath = "VATTOTech/File/logins.txt";
 
     static final String Username = "StoreManager123";
     static final String Password = "A1B2C3D4";

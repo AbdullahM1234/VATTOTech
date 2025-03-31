@@ -1,0 +1,7 @@
+John Doe,20,24.99,1101,Unknown,Unknown,1
+Pokemon Blooming Waters,12,74.99,123123,Trading Cards,The Pokemon Company,6
+Batman Figurine,66,25.97,123456,Action Figure,DC,6
+LEGO City,84,105.99,217386,
+Ninjago LEGO,96,87.99,287342,LEGO Set,LEGO,8
+Beyblade X,13,25.99,632434,Toy,Hasbro,6
+Superman Statue,3,5999.99,953234,Collectible,DC,18
