@@ -9,12 +9,6 @@
 </head>
 
 <body>
-    <img src="logo.png" alt="Company Logo" class="logo-corner">
-
-    <div id="content">
-        <h1>Welcome to the Inventory Management System</h1>
-    </div>
-
     <div class="container" id="loginPage">
         <h2>Login</h2>
         <input type="text" id="username" placeholder="Username">
@@ -24,17 +18,21 @@
         </div>
         <button class="login" onclick="login()">Login</button>
     </div>
-
-
-    <div class="container" id="dashboard" style="display: none;">
+    
+    <div class="container" id="sidebar" style="display: none;">
         <h2>Inventory Dashboard</h2>
         <nav>
-            <button onclick="showPage('addProduct')">Add Product</button>
-            <button onclick="showPage('viewInventory')">View Inventory</button>
-            <button onclick="showPage('searchFilter')">Search & Filter</button>
-            <button onclick="showPage('sortInventory')">Sort Inventory</button>
+            <!-- <img src="logo.png" alt="Company Logo" class="logo"> -->
+            <button onclick="navigateTo('addProduct.html')">Add Product</button>
+            <button onclick="navigateTo('viewInventory.html')">View Inventory</button>
+            <button onclick="navigateTo('searchFilter.html')">Search & Filter</button>
+            <button onclick="navigateTo('sortInventory.html')">Sort Inventory</button>
             <button class="logout" onclick="logout()">Logout</button>
         </nav>
+    </div>
+    <div id="content">
+        <h1>Welcome to the Inventory Management System</h1>
+        <input type="text" id="searchBar" placeholder="Search inventory...">
 
     </div>
 
@@ -44,15 +42,23 @@
             let password = document.getElementById("password").value;
             if(username === "admin" && password === "password") { 
                 document.getElementById("loginPage").style.display = "none";
-                document.getElementById("dashboard").style.display = "block";
+                document.getElementById("sidebar").style.display = "block";
+                document.getElementById("searchBar").style.display = "block";
             } else {
                 alert("Invalid credentials!");
             }
         }
 
         function logout() {
-            document.getElementById("dashboard").style.display = "none";
+            document.getElementById("sidebar").style.display = "none";
             document.getElementById("loginPage").style.display = "block";
+            document.getElementById("searchBar").style.display = "none";
+
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("showPassword").checked = false;
+            document.getElementById("password").type = "password";
+        
         }
 
         function showPassword() {
