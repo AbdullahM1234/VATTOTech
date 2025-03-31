@@ -5,6 +5,42 @@ import java.util.Comparator;
 import java.util.List;
 
 public class InventoryManagerMethods {
+
+    private static int getIntInput(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = InventoryManager.scanner.nextLine();
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Please enter a valid integer.");
+            }
+        }
+    }
+
+    private static double getDoubleInput(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = InventoryManager.scanner.nextLine();
+            try {
+                return Double.parseDouble(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Please enter a valid decimal number.");
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     protected static void loadInventoryFromFile() {
         try (BufferedReader br = new BufferedReader(new FileReader(InventoryManager.databaseFilePath))) {
             String line;
@@ -32,11 +68,8 @@ public class InventoryManagerMethods {
     protected static void addProduct() {
         System.out.print("Enter product name: ");
         String name = InventoryManager.scanner.nextLine();
-        System.out.print("Enter quantity: ");
-        int quantity = InventoryManager.scanner.nextInt();
-        System.out.print("Enter price: ");
-        double price = InventoryManager.scanner.nextDouble();
-        InventoryManager.scanner.nextLine();
+        int quantity = getIntInput("Enter quantity: ");
+        double price = getDoubleInput("Enter price: ");
         System.out.print("Enter SKU: ");
         String sku = InventoryManager.scanner.nextLine();
 
@@ -170,8 +203,7 @@ public class InventoryManagerMethods {
             System.out.println("4. Edit Price");
             System.out.println("5. Edit Tags");
             System.out.println("6. Exit Editing");
-            System.out.print("Enter your choice: ");
-            int choice = InventoryManager.scanner.nextInt();
+            int choice = getIntInput("Enter your choice: ");
             InventoryManager.scanner.nextLine();
 
             switch (choice) {
@@ -184,14 +216,10 @@ public class InventoryManagerMethods {
                     product.sku = InventoryManager.scanner.nextLine();
                     break;
                 case 3:
-                    System.out.print("Enter new quantity: ");
-                    product.quantity = InventoryManager.scanner.nextInt();
-                    InventoryManager.scanner.nextLine();
+                    product.quantity = getIntInput("Enter new quantity: ");
                     break;
                 case 4:
-                    System.out.print("Enter new price: ");
-                    product.price = InventoryManager.scanner.nextDouble();
-                    InventoryManager.scanner.nextLine();
+                    product.price = getDoubleInput("Enter new price: ");
                     break;
                 case 5:
                     System.out.println("Enter new tags (comma-separated: 'Toy Type, Brand, Age and up'): ");
@@ -298,7 +326,7 @@ public class InventoryManagerMethods {
     private static void searchByRelevance(String keyword) {
         List<Product> results = new ArrayList<>();
         keyword = keyword.toLowerCase();
-        int threshold = 4; // max allowed distance for fuzzy match
+        int threshold = 2; // max allowed distance for fuzzy match
 
         for (Product product : InventoryManager.inventory) {
             String nameLower = product.name.toLowerCase();
