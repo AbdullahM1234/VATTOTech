@@ -52,7 +52,8 @@ public class InventoryManager extends InventoryManagerMethods {
             System.out.println("6. Inventory Overview");
             System.out.println("7. Sort Inventory");
             System.out.println("8. Edit Inventory");
-            System.out.println("9. Exit");
+            System.out.println("9. Generate Report");
+            System.out.println("10. Exit");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -83,6 +84,8 @@ public class InventoryManager extends InventoryManagerMethods {
                     editProduct();
                     break;
                 case 9:
+                    generateInventoryReport();
+                case 10:
                     System.out.println("Exiting program...");
                     return;
                 default:

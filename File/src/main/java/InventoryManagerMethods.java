@@ -272,20 +272,59 @@ public class InventoryManagerMethods {
         }
     }
 
+    private static int levenshteinDistance(String a, String b) {
+        int[][] dp = new int[a.length() + 1][b.length() + 1];
+
+        for (int i = 0; i <= a.length(); i++) {
+            for (int j = 0; j <= b.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else {
+                    int cost = (a.charAt(i - 1) == b.charAt(j - 1)) ? 0 : 1;
+                    dp[i][j] = Math.min(
+                            Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1),
+                            dp[i - 1][j - 1] + cost
+                    );
+                }
+            }
+        }
+
+        return dp[a.length()][b.length()];
+    }
+
+
     private static void searchByRelevance(String keyword) {
         List<Product> results = new ArrayList<>();
         keyword = keyword.toLowerCase();
+        int threshold = 4; // max allowed distance for fuzzy match
 
         for (Product product : InventoryManager.inventory) {
-            boolean nameMatch = product.name.toLowerCase().contains(keyword);
-            boolean tagMatch = product.tags.contains(keyword);
+            String nameLower = product.name.toLowerCase();
+            boolean nameMatch = nameLower.contains(keyword) || levenshteinDistance(nameLower, keyword) <= threshold;
+            boolean tagMatch = false;
+            for (String tag : product.tags) {
+                String tagLower = tag.toLowerCase();
+                if (tagLower.contains(keyword) || levenshteinDistance(tagLower, keyword) <= threshold) {
+                    tagMatch = true;
+                    break;
+                }
+            }
 
             if (nameMatch || tagMatch) {
                 results.add(product);
             }
         }
-        System.out.println(results);
+        if (results.isEmpty()) {
+            System.out.println("No products found matching that keyword.");
+        } else {
+            for (Product result : results) {
+                System.out.println(result);
+            }
+        }
     }
+
 
 
     protected static void sortInventory() {
@@ -347,6 +386,45 @@ public class InventoryManagerMethods {
 
         if (lowStockCount == 0 && zeroStockCount == 0) {
             System.out.println("All items are sufficiently stocked.");
+        }
+    }
+    protected static void generateInventoryReport() {
+        if (InventoryManager.inventory.isEmpty()) {
+            System.out.println("Inventory is empty.");
+            return;
+        }
+
+        int totalItems = InventoryManager.inventory.size();
+        int totalQuantity = 0;
+        double totalValue = 0.0;
+        double totalPrice = 0.0;
+        Product mostStocked = InventoryManager.inventory.get(0);
+        Product leastStocked = InventoryManager.inventory.get(0);
+        for (Product product : InventoryManager.inventory) {
+
+            totalQuantity += product.quantity;
+            totalValue += product.quantity * product.price;
+            totalPrice += product.price;
+            if (product.quantity > mostStocked.quantity) {
+                mostStocked = product;
+            }
+            if (product.quantity < leastStocked.quantity) {
+                leastStocked = product;
+            }
+        }
+        double avgQuantity = (double) totalQuantity / totalItems;
+        double avgPrice = totalPrice / totalItems;
+        System.out.println("Inventory Report:");
+        System.out.println("Total products: " + totalItems);
+        System.out.println("Total inventory value: $" + String.format("%.2f", totalValue));
+        System.out.println("Average quantity per product: " + String.format("%.2f", avgQuantity));
+        System.out.println("Average price per product: $" + String.format("%.2f", avgPrice));
+        System.out.println("Most stocked item: " + mostStocked.name + " (Qty: " + mostStocked.quantity + ")");
+        System.out.println("Least stocked item: " + leastStocked.name + " (Qty: " + leastStocked.quantity + ")");
+        if (leastStocked.quantity == 0) {
+            System.out.println("Suggestion: Reorder '" + leastStocked.name + "' (out of stock)");
+        } else if (leastStocked.quantity < 5) {
+            System.out.println("Suggestion: Consider restocking '" + leastStocked.name + "' (low stock)");
         }
     }
 
