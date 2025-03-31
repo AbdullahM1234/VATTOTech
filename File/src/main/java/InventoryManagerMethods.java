@@ -456,21 +456,40 @@ public class InventoryManagerMethods {
         }
     }
 
-    protected static boolean login() {
+    protected static String accessType = null;
+
+    public static boolean login() {
         int attempts = 3;
         while (attempts > 0) {
             System.out.print("Enter username: ");
-            String UsernameInput = InventoryManager.scanner.nextLine();
+            String UsernameInput = InventoryManager.scanner.nextLine().trim();
             System.out.print("Enter password: ");
-            String PasswordInput = InventoryManager.scanner.nextLine();
+            String PasswordInput = InventoryManager.scanner.nextLine().trim();
 
-            if (UsernameInput.equals(InventoryManager.Username) && PasswordInput.equals(InventoryManager.Password)) {
-                System.out.println("Login successful!\n");
-                return true;
-            } else {
-                attempts--;
-                System.out.println("WRONG!. Attempts remaining: " + attempts);
+            try (BufferedReader br = new BufferedReader(new FileReader(InventoryManager.loginsFilePath))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] credentials = line.split(",");
+                    if (credentials.length == 3) {
+                        String username = credentials[0].trim();
+                        String password = credentials[1].trim();
+                        String storedAccessType = credentials[2].trim();
+                        System.out.println(storedAccessType);
+                        System.out.println(accessType);
+
+                        if (UsernameInput.equals(username) && PasswordInput.equals(password)) {
+                            accessType = storedAccessType;
+                            System.out.println("Login successful! Access type: " + accessType + "\n");
+                            return true;
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("Error reading user file: " + e.getMessage());
             }
+
+            attempts--;
+            System.out.println("WRONG! Attempts remaining: " + attempts);
         }
         return false;
     }

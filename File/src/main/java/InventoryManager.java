@@ -30,6 +30,7 @@ public class InventoryManager extends InventoryManagerMethods {
     public static ArrayList<Product> inventory = new ArrayList<>();
     public static Scanner scanner = new Scanner(System.in);
     public static String databaseFilePath = "toys_and_games_database.txt";
+    public static String loginsFilePath = "logins.txt";
 
     static final String Username = "StoreManager123";
     static final String Password = "A1B2C3D4";
@@ -41,7 +42,59 @@ public class InventoryManager extends InventoryManagerMethods {
         }
         loadInventoryFromFile();
 
-        while (true) {
+        if (accessType.equals("owner")) {
+            while (true) {
+                System.out.println();
+                System.out.println("Choose an option:");
+                System.out.println("1. Add Product");
+                System.out.println("2. Add Products from File");
+                System.out.println("3. Remove Product");
+                System.out.println("4. Search Inventory");
+                System.out.println("5. View Inventory");
+                System.out.println("6. Inventory Overview");
+                System.out.println("7. Sort Inventory");
+                System.out.println("8. Edit Inventory");
+                System.out.println("9. Generate Report");
+                System.out.println("10. Exit");
+    
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+    
+                switch (choice) {
+                    case 1:
+                        addProduct();
+                        break;
+                    case 2:
+                        addProductFromFile();
+                        break;
+                    case 3:
+                        removeProduct();
+                        break;
+                    case 4:
+                        searchInventory();
+                        break;
+                    case 5:
+                        viewInventory();
+                        break;
+                    case 6:
+                        inventoryOverview();
+                        break;
+                    case 7:
+                        sortInventory();
+                        break;
+                    case 8:
+                        editProduct();
+                        break;
+                    case 9:
+                        generateInventoryReport();
+                    case 10:
+                        System.out.println("Exiting program...");
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            }
+        } else if (accessType.equals("employee")) {
             System.out.println();
             System.out.println("Choose an option:");
             System.out.println("1. Add Product");
@@ -49,48 +102,59 @@ public class InventoryManager extends InventoryManagerMethods {
             System.out.println("3. Remove Product");
             System.out.println("4. Search Inventory");
             System.out.println("5. View Inventory");
-            System.out.println("6. Inventory Overview");
-            System.out.println("7. Sort Inventory");
-            System.out.println("8. Edit Inventory");
-            System.out.println("9. Generate Report");
-            System.out.println("10. Exit");
+            System.out.println("6. Generate Report");
+            System.out.println("7. Exit");
 
             int choice = scanner.nextInt();
-            scanner.nextLine();
+                scanner.nextLine();
+    
+                switch (choice) {
+                    case 1:
+                        addProduct();
+                        break;
+                    case 2:
+                        addProductFromFile();
+                        break;
+                    case 3:
+                        removeProduct();
+                        break;
+                    case 4:
+                        searchInventory();
+                        break;
+                    case 5:
+                        viewInventory();
+                        break;
+                    case 6:
+                        generateInventoryReport();
+                    case 7:
+                        System.out.println("Exiting program...");
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+        } else if (accessType.equals("customer")) {
+            System.out.println();
+            System.out.println("Choose an option:");
+            System.out.println("1. Search Inventory");
+            System.out.println("2. View Inventory");
+            System.out.println("3. Exit");
 
-            switch (choice) {
-                case 1:
-                    addProduct();
-                    break;
-                case 2:
-                    addProductFromFile();
-                    break;
-                case 3:
-                    removeProduct();
-                    break;
-                case 4:
-                    searchInventory();
-                    break;
-                case 5:
-                    viewInventory();
-                    break;
-                case 6:
-                    inventoryOverview();
-                    break;
-                case 7:
-                    sortInventory();
-                    break;
-                case 8:
-                    editProduct();
-                    break;
-                case 9:
-                    generateInventoryReport();
-                case 10:
-                    System.out.println("Exiting program...");
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-            }
+            int choice = scanner.nextInt();
+                scanner.nextLine();
+    
+                switch (choice) {
+                    case 1:
+                        searchInventory();
+                        break;
+                    case 2:
+                        viewInventory();
+                        break;
+                    case 3:
+                        System.out.println("Exiting program...");
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
         }
     }
 }
