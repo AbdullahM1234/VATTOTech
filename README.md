@@ -47,6 +47,12 @@ Due to this variety, the system will allow advanced filtering, data categorizati
 
 ## 💻 Steps on How to Install our Program
 
+### What to Download:
+
+1) Java 23: https://www.oracle.com/ca-en/java/technologies/downloads/
+2) Visual Studio Code: https://code.visualstudio.com/download
+3) Intellj: https://www.jetbrains.com/idea/download/?section=mac
+
 ### Instructions on How to Clone the Assignment:
 
 1) Make sure you have your Github and Intellij set up, make sure to have Java 23 (Program is compatible with both Windows and Mac)
@@ -60,8 +66,3 @@ Due to this variety, the system will allow advanced filtering, data categorizati
 3) In the project panel on the left side, click on the folder icon to navigate to the file path, File/src/main/java/InventoryGUI 
 4) After a couple of seconds, the application should start executing and will display a menu with all the options in the command line
 
-### What to Download:
-
-1) Java 23: https://www.oracle.com/ca-en/java/technologies/downloads/
-2) VSCODE: https://code.visualstudio.com/download
-3) Intellj: https://www.jetbrains.com/idea/download/?section=mac
