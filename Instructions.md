@@ -12,3 +12,9 @@
 2) On the left side, click on the folder icon to navigate to the file path, File/src/main/java/InventoryGUI
 3) In the project panel on the left side, click on the folder icon to navigate to the file path, File/src/main/java/InventoryGUI 
 4) After a couple of seconds, the application should start executing and will display a menu with all the options in the command line
+
+### What to Download:
+
+1) Java 23: https://www.oracle.com/ca-en/java/technologies/downloads/
+2) VSCODE: https://code.visualstudio.com/download
+3) Intellj: https://www.jetbrains.com/idea/download/?section=mac
