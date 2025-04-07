@@ -3,7 +3,7 @@
 **VATTO Tech** is a software development team focused on building efficient and scalable inventory solutions. More specifically the toys and games domain would be to provide an organized repository for tracking, managing, and analyzing collections of toys and games. These systems allow consumers, retailers, and manufacturers to manage inventory, pricing, trading, and accessibility to information about diverse products. The scope ranges from simple personal collection tracking to robust solutions for large retailers.
 
 
-## 🔧 Team Members & Roles
+## 👥 Team Members & Roles
 
 | Name                  | Role                  |
 |-----------------------|------------------------|
@@ -13,7 +13,9 @@
 | Abdullah Mobashar     | Back-End Lead          |
 | Tony Ngo              | Software Quality Lead  |
 
-> All team members actively contributed to development, design, documentation, and testing.
+::: info
+All team members actively contributed to development, design, documentation, and testing.
+:::
 
 ---
 
