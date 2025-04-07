@@ -41,7 +41,7 @@ public class InventoryManagerMethods {
 
 
 
-    protected static void loadInventoryFromFile() {
+    public static void loadInventoryFromFile() {
         try (BufferedReader br = new BufferedReader(new FileReader(InventoryManager.databaseFilePath))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -161,7 +161,7 @@ public class InventoryManagerMethods {
         System.out.println("Product not found.");
     }
 
-    private static void updateFile() {
+    public static void updateFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(InventoryManager.databaseFilePath))) {
             for (Product product : InventoryManager.inventory) {
                 bw.write(product.toFile());
