@@ -25,13 +25,13 @@ public class InventoryGUI {
         JButton removeButton = new JButton("Remove Product");
         JButton editButton = new JButton("Edit Product");
         JButton searchButton = new JButton("Search");
-        JButton loadFileButton = new JButton("Load from File");
+        JButton viewAllButton = new JButton("View All");
 
         panel.add(addButton);
         panel.add(removeButton);
         panel.add(editButton);
         panel.add(searchButton);
-        panel.add(loadFileButton);
+        panel.add(viewAllButton);
         frame.add(panel, BorderLayout.SOUTH);
 
         addButton.addActionListener(e -> addProductDialog());
@@ -88,10 +88,7 @@ public class InventoryGUI {
             showSearchResults(results);
         });
 
-        loadFileButton.addActionListener(e -> {
-            InventoryManager.addProductFromFile();
-            refreshTable();
-        });
+        viewAllButton.addActionListener(e -> refreshTable());
 
         InventoryManager.loadInventoryFromFile();
         refreshTable();
@@ -131,6 +128,45 @@ public class InventoryGUI {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(InventoryGUI::new);
+        SwingUtilities.invokeLater(() -> {
+            boolean authenticated = showLoginDialog();
+            if (authenticated) {
+                new InventoryGUI();
+            } else {
+                JOptionPane.showMessageDialog(null, "Too many failed attempts. Exiting program...");
+                System.exit(0);
+            }
+        });
+    }
+
+    private static boolean showLoginDialog() {
+        final int MAX_ATTEMPTS = 3;
+        for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+            JPanel panel = new JPanel(new GridLayout(2, 2));
+            JTextField usernameField = new JTextField();
+            JPasswordField passwordField = new JPasswordField();
+
+            panel.add(new JLabel("Username:"));
+            panel.add(usernameField);
+            panel.add(new JLabel("Password:"));
+            panel.add(passwordField);
+
+            int result = JOptionPane.showConfirmDialog(null, panel, "Login", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                String username = usernameField.getText().trim();
+                String password = new String(passwordField.getPassword()).trim();
+
+                if ((username.equals("owner") && password.equals("owner1")) ||
+                        (username.equals("employee") && password.equals("employee1")) ||
+                        (username.equals("customer") && password.equals("customer1"))) {
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid credentials.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }
