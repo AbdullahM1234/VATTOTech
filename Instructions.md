@@ -17,5 +17,13 @@
 1) First, you need to open up IntelliJ and run it as administrator
 2) On the left side, click on the folder icon to navigate to the file path, File/src/main/java/InventoryGUI
 3) In the project panel on the left side, click on the folder icon to navigate to the file path, File/src/main/java/InventoryGUI 
-4) The application should start executing and open up a new window with the Inventory Management options. 
+4) The application should start executing and open up a new window with the Inventory Management options. When prompted with the login, type in one of these credentials: 
+>      Username: owner
+>      Password: owner1
+
+>      Username: employee
+>      Password: employee1
+
+>      Username: customer
+>      Password: customer1
 
