@@ -13,8 +13,6 @@
 | Abdullah Mobashar     | Back-End Lead          |
 | Tony Ngo              | Software Quality Lead  |
 
-> All team members actively contributed to development, design, documentation, and testing.
-
 ---
 
 ## 🛠️ Tech Stack & Pipeline
@@ -48,3 +46,13 @@ Due to this variety, the system will allow advanced filtering, data categorizati
 ---
 
 ## 💻 Steps on How to Install Our Program
+
+### Instructions on How to Clone the Assignment:
+Make sure you have your Github and Intellij set up
+To clone our repository you will need to copy and paste our github repository link with the command using “git clone https://github.com/AbdullahM1234/VATTOTech” in the git bash terminal or you can click “File” -> “New” -> “Project from Version Control” -> and paste the Link in “URL” -> “Clone”
+It will then load automatically
+Instructions on How to Run our Application:
+First, you need to open up IntelliJ and run it as administrator
+On the left side, click on the files named “VATTOTech” -> “InventoryManager.java”, this should open up all the .java files for the application
+After opening up the java file, on the top right, a green button should appear looking like an arrow facing the right side named Run, clicking on it will run the application. (if the button shows up grey, it means you haven't opened up "InventoryManager.java")
+After a couple of seconds, the application should start executing and will display a menu with all the options in the command line
