@@ -46,3 +46,5 @@ The domain includes categories such as:
 Due to this variety, the system will allow advanced filtering, data categorization (Genre, Brand or Type). 
 
 ---
+
+## 💻 Steps on How to Install Our Program
