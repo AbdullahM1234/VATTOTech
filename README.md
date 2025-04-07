@@ -45,7 +45,7 @@ Due to this variety, the system will allow advanced filtering, data categorizati
 
 ---
 
-## 💻 Steps on How to Install Our Program
+## 💻 Steps on How to Install our Program
 
 ### Instructions on How to Clone the Assignment:
 
