@@ -13,9 +13,7 @@
 | Abdullah Mobashar     | Back-End Lead          |
 | Tony Ngo              | Software Quality Lead  |
 
-::: info
-All team members actively contributed to development, design, documentation, and testing.
-:::
+> All team members actively contributed to development, design, documentation, and testing.
 
 ---
 
