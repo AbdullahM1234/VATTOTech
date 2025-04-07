@@ -10,5 +10,5 @@
 
 1) First, you need to open up IntelliJ and run it as administrator
 2) On the left side, click on the folder icon to navigate to the file path, File/src/main/java/InventoryGUI
-3) After opening up the java file, on the top right, a green button should appear looking like an arrow facing the right side named Run, clicking on it will run the application. (if the button shows up grey, it means you haven't opened up "InventoryManager.java")
+3) Right click the InventoryGUI file and click on "Run InventoryGUI.main()" to run the program
 4) After a couple of seconds, the application should start executing and will display a menu with all the options in the command line
